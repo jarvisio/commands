@@ -5,7 +5,7 @@ import (
 )
 
 func Now(use24 bool) string {
-	layout := "03:04PM"
+	layout := "3:04PM"
 	if use24 {
 		layout = "15:04"
 	}
