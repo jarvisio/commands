@@ -4,8 +4,11 @@ import (
 	"time"
 )
 
-func Now() string {
-	const layout = "03:04PM"
+func Now(use24 bool) string {
+	layout := "03:04PM"
+	if use24 {
+		layout = "15:04"
+	}
 	t := TimeNow()
 	return t.Format(layout)
 }
