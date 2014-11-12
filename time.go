@@ -19,6 +19,7 @@ var TimeNow = func() time.Time {
 
 func NowForce(unix int) {
 	TimeNow = func() time.Time {
-		return time.Unix(int64(unix), 0)
+		t := time.Unix(int64(unix), 0)
+		return t.UTC()
 	}
 }
