@@ -4,6 +4,9 @@ import (
 	"time"
 )
 
+// Now returns the current time as a string
+// you can choose between 12 and 24 hour time format
+// using the use24 parameter.
 func Now(use24 bool) string {
 	layout := "3:04PM"
 	if use24 {
