@@ -9,16 +9,16 @@ func Now(use24 bool) string {
 	if use24 {
 		layout = "15:04"
 	}
-	t := TimeNow()
+	t := timeNow()
 	return t.Format(layout)
 }
 
-var TimeNow = func() time.Time {
+var timeNow = func() time.Time {
 	return time.Now()
 }
 
-func NowForce(unix int) {
-	TimeNow = func() time.Time {
+func nowForce(unix int) {
+	timeNow = func() time.Time {
 		t := time.Unix(int64(unix), 0)
 		return t.UTC()
 	}
