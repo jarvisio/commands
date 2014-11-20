@@ -8,11 +8,8 @@ check:
 coverage:
 	go test -coverprofile=coverage.out -covermode=count && go tool cover -html=coverage.out && unlink coverage.out
 
-build:
-	go build colorcat.go
-
-install: build
-	cp colorcat ~/bin/
+install:
+	go install
 
 install_devtools:
 	go get code.google.com/p/go.tools/cmd/vet
