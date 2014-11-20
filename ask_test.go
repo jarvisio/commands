@@ -8,7 +8,7 @@ import (
 
 func TestQueryWolframAlpha(t *testing.T) {
 	const expected = "392448 km"
-	stub := new(StubFetcher)
+	stub := new(stubFetcher)
 	question := "some query"
 	answer, err := Ask(question, stub)
 	if err != nil {
@@ -21,8 +21,8 @@ func TestQueryWolframAlpha(t *testing.T) {
 
 func TestWolframAlphaQuery(t *testing.T) {
 	const expected = "392448 km"
-	stub := new(StubFetcher)
-	output, err := WolframAlphaQuery(stub, "some query")
+	stub := new(stubFetcher)
+	output, err := wolframAlphaQuery(stub, "some query")
 	if err != nil {
 		t.Errorf("%v", err)
 	}
@@ -34,8 +34,8 @@ func TestWolframAlphaQuery(t *testing.T) {
 
 func TestWolframAlphaQueryNoResult(t *testing.T) {
 	const expected = "Nothing found"
-	stub := new(StubFetcher)
-	result, err := WolframAlphaQuery(stub, "produce error")
+	stub := new(stubFetcher)
+	result, err := wolframAlphaQuery(stub, "produce error")
 	if result != nil {
 		t.Errorf("Result should be nil but is %v", result)
 	}
@@ -47,7 +47,7 @@ func TestWolframAlphaQueryNoResult(t *testing.T) {
 func TestWolframAlphaUrl(t *testing.T) {
 	const input = "Distance Earth"
 	const expected = "http://api.wolframalpha.com/v2/query?input=Distance+Earth&appid=KHJ7LL-XU5JJR9HV9"
-	if x := WolframAlphaUrl(input); x != expected {
+	if x := wolframAlphaURL(input); x != expected {
 		t.Errorf("WolframAlphaUrl(%v) = %v, want %v", input, x, expected)
 	}
 }
@@ -62,8 +62,8 @@ func TestReadPods(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 
-	result_bytes, err := ReadPods(file)
-	result := string(result_bytes)
+	resultBytes, err := readPods(file)
+	result := string(resultBytes)
 	if err != nil {
 		t.Errorf("%v", err)
 	}

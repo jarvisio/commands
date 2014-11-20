@@ -9,12 +9,18 @@ import (
 	"strings"
 )
 
+// HTTPFetcher is an interface for fetching things
+// from the so called internet.
 type HTTPFetcher interface {
 	Fetch(url string) ([]byte, error)
 }
 
+// Fetcher is the struct you should use to fetch
+// things from the internet. It conforms to HTTPFetcher interface.
 type Fetcher struct{}
 
+// Fetch performes the fetch from the given url
+// it returns a byte array or an error.
 func (fetcher *Fetcher) Fetch(url string) ([]byte, error) {
 	fmt.Println(url)
 	response, err := http.Get(url)
@@ -33,10 +39,9 @@ func (fetcher *Fetcher) Fetch(url string) ([]byte, error) {
 }
 
 // For testing
+type stubFetcher struct{}
 
-type StubFetcher struct{}
-
-func (fetcher *StubFetcher) Fetch(url string) ([]byte, error) {
+func (fetcher *stubFetcher) Fetch(url string) ([]byte, error) {
 	if strings.Contains(url, "api.wolframalpha.com/v2/query?input=some+query") {
 		// Return Wolfram Alpha file
 		xmlFilePath, _ := filepath.Abs("fixtures/wolfram_alpha.xml")

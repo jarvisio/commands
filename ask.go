@@ -8,15 +8,17 @@ import (
 	"strings"
 )
 
+// Ask takes a question and an instance of HTTPFetcher
+// it returns a byte array or an error.
 func Ask(question string, fetcher HTTPFetcher) ([]byte, error) {
-	return WolframAlphaQuery(fetcher, question)
+	return wolframAlphaQuery(fetcher, question)
 }
 
-func WolframAlphaQuery(fetcher HTTPFetcher, query string) ([]byte, error) {
-	url := WolframAlphaUrl(query)
+func wolframAlphaQuery(fetcher HTTPFetcher, query string) ([]byte, error) {
+	url := wolframAlphaURL(query)
 	response, err := fetcher.Fetch(url)
 	if err == nil {
-		result, err := ReadPods(response)
+		result, err := readPods(response)
 		if err != nil {
 			return nil, err
 		}
@@ -28,7 +30,7 @@ func WolframAlphaQuery(fetcher HTTPFetcher, query string) ([]byte, error) {
 	return nil, err
 }
 
-func WolframAlphaUrl(text string) string {
+func wolframAlphaURL(text string) string {
 	var buffer bytes.Buffer
 	buffer.WriteString("http://api.wolframalpha.com/v2/query?input=")
 	buffer.WriteString(url.QueryEscape(text))
@@ -36,21 +38,20 @@ func WolframAlphaUrl(text string) string {
 	return buffer.String()
 }
 
-func ReadPods(body []byte) ([]byte, error) {
-	var queryResult XMLQueryResult
+func readPods(body []byte) ([]byte, error) {
+	var queryResult xmlQueryResult
 	if err := xml.Unmarshal(body, &queryResult); err != nil {
 		return nil, err
 	}
 	if queryResult.Success == true {
 		plainText := queryResult.Pods[1].SubPods[0].PlainText
 		return []byte(plainText), nil
-	} else {
-		err := errors.New("Nothing found")
-		return nil, err
 	}
+	err := errors.New("Nothing found")
+	return nil, err
 }
 
-type XMLPod struct {
+type xmlPod struct {
 	XMLName    xml.Name    `xml:"pod"`
 	Title      string      `xml:"title,attr"`
 	Scanner    string      `xml:"scanner,attr"`
@@ -58,18 +59,18 @@ type XMLPod struct {
 	Position   string      `xml:"position,attr"`
 	Error      string      `xml:"error,attr"`
 	NumSubPods string      `xml:"numsubpods,attr"`
-	SubPods    []XMLSubPod `xml:"subpod"`
+	SubPods    []xmlSubPod `xml:"subpod"`
 }
 
-type XMLSubPod struct {
+type xmlSubPod struct {
 	XMLName   xml.Name `xml:"subpod"`
 	Title     string   `xml:"title,attr"`
 	PlainText string   `xml:"plaintext"`
 }
 
-type XMLQueryResult struct {
+type xmlQueryResult struct {
 	XMLName xml.Name `xml:"queryresult"`
 	Success bool     `xml:"success,attr"`
 	Error   bool     `xml:"error,attr"`
-	Pods    []XMLPod `xml:"pod"`
+	Pods    []xmlPod `xml:"pod"`
 }
