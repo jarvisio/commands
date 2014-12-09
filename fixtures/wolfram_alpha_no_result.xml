@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<queryresult success='false'
+  error='false'
+  numpods='0'
+  datatypes=''
+  timedout=''
+  timedoutpods=''
+  timing='0.358'
+  parsetiming='0.097'
+  parsetimedout='false'
+  recalculate=''
+  id='MSPa41171he6g6ide7gbgbi8000049554192391g0hgc'
+  host='http://www5a.wolframalpha.com'
+  server='61'
+  related=''
+  version='2.6'>
+  <didyoumeans count='1'>
+    <didyoumean score='0.5' level='medium'>query</didyoumean>
+  </didyoumeans>
+  <examplepage category='CalculateExamples'
+    url='http://www.wolframalpha.com/examples/CalculateExamples-content.html' />
+</queryresult>
